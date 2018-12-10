@@ -19,6 +19,7 @@ export default function (state = initialState, action) {
             });
 
         case FETCHING_DAY_DATA_SUCCESS:
+            console.log(action.payload);
             return Object.assign({}, state, {
                 isFetching: false,
                 data: action.payload,

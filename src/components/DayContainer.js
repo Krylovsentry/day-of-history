@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import FetchDayData from "../Actions/FetchDayData";
 
 class DayContainer extends Component {
@@ -9,10 +9,19 @@ class DayContainer extends Component {
         this.props.FetchDayData();
     }
 
+    renderDayCards() {
+        const {day} = this.props;
+        if (day.data && day.data.length !== 0) {
+            let pages = day.data.query.pages;
+            let extract = pages[Object.keys(pages)[0]].extract;
+            let readyDays = extract.split('==');
+        }
+    }
+
     render() {
         return (
             <View>
-                <Text>Container</Text>
+                {this.renderDayCards()}
             </View>
         );
     }
