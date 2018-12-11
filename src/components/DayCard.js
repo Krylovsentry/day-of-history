@@ -4,6 +4,10 @@ import {StyleSheet, Text, View} from "react-native";
 const styles = StyleSheet.create({
     cardContainer: {
         display: 'flex',
+        marginBottom: 20,
+        borderBottomColor: '#d6e0e5',
+        borderBottomWidth: 3,
+        padding: 25
     }
 });
 

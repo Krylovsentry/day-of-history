@@ -5,7 +5,7 @@ const Header = () => {
     return (
         <View style={headerContainer}>
             <Text style={header}>
-                Day of History app
+                Day of History
             </Text>
         </View>
     )

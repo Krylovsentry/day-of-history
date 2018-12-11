@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import FetchDayData from "../Actions/FetchDayData";
 import DayCard from "./DayCard";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 class DayContainer extends Component {
 
@@ -54,18 +55,51 @@ class DayContainer extends Component {
                 let [year, event] = yearValue.split('–');
                 dayCards.push(<DayCard year={year} event={event}/>);
             });
+            birthsContent && birthsContent.split('\n').forEach((yearValue) => {
+                let [year, event] = yearValue.split('–');
+                dayCards.push(<DayCard year={year} event={event}/>);
+            });
+            deathsContent && deathsContent.split('\n').forEach((yearValue) => {
+                let [year, event] = yearValue.split('–');
+                dayCards.push(<DayCard year={year} event={event}/>);
+            });
+            // holidaysContent && holidaysContent.split('\n').forEach((yearValue) => {
+            //     let some = yearValue;
+            // });
         }
         return dayCards;
     }
 
     render() {
+        const {day} = this.props;
+        if (day.isFetching) {
+            return (
+                <View>
+                    <Spinner
+                        visible={day.isFetching}
+                        textContent={'Loading...'}
+                        textStyle={{color: '#253145'}}
+                        animation='fade'
+                    />
+                </View>
+            );
+        }
         return (
-            <View>
+            <ScrollView contentContainerStyle={contentContainer}>
                 {this.renderDayCards()}
-            </View>
+            </ScrollView>
         );
     }
 }
+
+const styles = {
+    contentContainer: {
+        paddingBottom: 100,
+        paddingTop: 50
+    }
+};
+
+const {contentContainer} = styles;
 
 function mapStateToProps(state) {
     return {
