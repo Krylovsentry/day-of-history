@@ -1,23 +1,20 @@
 import React from 'react';
-import {Text, View} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 
 const styles = StyleSheet.create({
     cardContainer: {
         display: 'flex',
-        bold: {
-            fontWeight: 'bold'
-        }
     }
 });
 
 const {cardContainer} = styles;
 
 //use new js reconstruction for props, more readable way
-const DayCard = (props) => {
+const DayCard = ({year, event}) => {
     return (
         <View style={cardContainer}>
-            <Text>Year</Text>
-            <Text>Event</Text>
+            <Text>{year}</Text>
+            <Text>{event}</Text>
         </View>
     );
 };
