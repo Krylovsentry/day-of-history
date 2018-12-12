@@ -1,44 +1,65 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {ScrollView, View} from 'react-native';
+import {ScrollView, Text, View, StyleSheet} from 'react-native';
 import FetchDayData from "../Actions/FetchDayData";
 import DayCard from "./DayCard";
 import Spinner from 'react-native-loading-spinner-overlay';
+import Accordion from "react-native-collapsible/Accordion";
 
 class DayContainer extends Component {
+
+    SECTIONS = [];
+
+    dayTitle;
+
+    state = {
+        activeSections: [],
+    };
 
     componentDidMount() {
         this.props.FetchDayData();
     }
 
     renderDayCards() {
-        let dayCards = [];
         const {day} = this.props;
         if (day.data && day.data.length !== 0) {
             let pages = day.data.query.pages;
             let extract = pages[Object.keys(pages)[0]].extract;
-            let dayTitle, eventsTitle, eventsContent, birthsTitle,
+            let eventsTitle, eventsContent, birthsTitle,
                 birthsContent, deathsTitle, deathsContent, holidaysTitle, holidaysContent;
+            let eventsSection, birthsSection, deathsSection;
 
             extract.split('==').map((value) => value.trim()).forEach((block, index) => {
                 switch (index) {
                     case 0:
-                        dayTitle = block;
+                        this.dayTitle = block;
                         break;
                     case 1:
                         eventsTitle = block;
+                        eventsSection = {
+                            title: eventsTitle,
+                            content: []
+                        };
                         break;
                     case 2:
                         eventsContent = block;
                         break;
                     case 3:
                         birthsTitle = block;
+                        birthsSection = {
+                            title: birthsTitle,
+                            content: []
+                        };
                         break;
                     case 4:
                         birthsContent = block;
                         break;
                     case 5:
                         deathsTitle = block;
+                        deathsSection = {
+                            title: deathsTitle,
+                            content: []
+                        };
                         break;
                     case 6:
                         deathsContent = block;
@@ -53,22 +74,39 @@ class DayContainer extends Component {
             });
             eventsContent && eventsContent.split('\n').forEach((yearValue) => {
                 let [year, event] = yearValue.split('–');
-                dayCards.push(<DayCard year={year} event={event}/>);
+                eventsSection.content.push(<DayCard year={year} event={event}/>);
             });
             birthsContent && birthsContent.split('\n').forEach((yearValue) => {
                 let [year, event] = yearValue.split('–');
-                dayCards.push(<DayCard year={year} event={event}/>);
+                birthsSection.content.push(<DayCard year={year} event={event}/>);
             });
             deathsContent && deathsContent.split('\n').forEach((yearValue) => {
                 let [year, event] = yearValue.split('–');
-                dayCards.push(<DayCard year={year} event={event}/>);
+                deathsSection.content.push(<DayCard year={year} event={event}/>);
             });
-            // holidaysContent && holidaysContent.split('\n').forEach((yearValue) => {
-            //     let some = yearValue;
-            // });
+            this.SECTIONS = [eventsSection, birthsSection, deathsSection];
         }
-        return dayCards;
     }
+
+    _renderHeader = section => {
+        return (
+            <View style={styles.header}>
+                <Text>{section.title}</Text>
+            </View>
+        );
+    };
+
+    _renderContent = section => {
+        return (
+            <View style={styles.content}>
+                {section.content}
+            </View>
+        );
+    };
+
+    _updateSections = activeSections => {
+        this.setState({ activeSections });
+    };
 
     render() {
         const {day} = this.props;
@@ -84,20 +122,85 @@ class DayContainer extends Component {
                 </View>
             );
         }
+        this.renderDayCards();
         return (
-            <ScrollView contentContainerStyle={contentContainer}>
-                {this.renderDayCards()}
+            <ScrollView contentContainerStyle={styles.contentContainer}>
+                <DayCard title={this.dayTitle}/>
+                <Accordion
+                    sections={this.SECTIONS}
+                    activeSections={this.state.activeSections}
+                    renderHeader={this._renderHeader}
+                    renderContent={this._renderContent}
+                    onChange={this._updateSections}
+                />
             </ScrollView>
         );
     }
 }
 
-const styles = {
+const styles = StyleSheet.create({
     contentContainer: {
         paddingBottom: 100,
         paddingTop: 50
-    }
-};
+    },
+    container: {
+        flex: 1,
+        backgroundColor: '#F5FCFF',
+        paddingTop: 10,
+    },
+    title: {
+        textAlign: 'center',
+        fontSize: 22,
+        fontWeight: '300',
+        marginBottom: 20,
+    },
+    header: {
+        backgroundColor: '#F5FCFF',
+        padding: 10,
+    },
+    headerText: {
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: '500',
+    },
+    content: {
+        padding: 20,
+        backgroundColor: '#fff',
+    },
+    active: {
+        backgroundColor: 'rgba(255,255,255,1)',
+    },
+    inactive: {
+        backgroundColor: 'rgba(245,252,255,1)',
+    },
+    selectors: {
+        marginBottom: 10,
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    selector: {
+        backgroundColor: '#F5FCFF',
+        padding: 10,
+    },
+    activeSelector: {
+        fontWeight: 'bold',
+    },
+    selectTitle: {
+        fontSize: 14,
+        fontWeight: '500',
+        padding: 10,
+    },
+    multipleToggle: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginVertical: 30,
+        alignItems: 'center',
+    },
+    multipleToggle__title: {
+        fontSize: 16,
+        marginRight: 8,
+    },
+});
 
 const {contentContainer} = styles;
 
