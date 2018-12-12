@@ -1,11 +1,12 @@
 import axios from 'axios';
-import {apiUrl} from "../utils/Constants";
+import {apiUrl, monthsMap} from "../utils/Constants";
 import {FETCHING_DAY_DATA, FETCHING_DAY_DATA_FAILURE, FETCHING_DAY_DATA_SUCCESS} from "../utils/ActionTypes";
 
 export default function FetchDayData() {
+    const date = new Date();
     return dispatch => {
         dispatch({type: FETCHING_DAY_DATA});
-        return axios.get(`${apiUrl}20%20March`)
+        return axios.get(`${apiUrl}${monthsMap[date.getMonth()]}%20${date.getDate()}`)
             .then(result => {
                 dispatch({type: FETCHING_DAY_DATA_SUCCESS, payload: result.data})
             })

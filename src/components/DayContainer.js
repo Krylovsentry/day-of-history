@@ -91,7 +91,7 @@ class DayContainer extends Component {
     _renderHeader = section => {
         return (
             <View style={styles.header}>
-                <Text>{section.title}</Text>
+                <Text style={styles.headerText}>{section.title}</Text>
             </View>
         );
     };
@@ -105,7 +105,7 @@ class DayContainer extends Component {
     };
 
     _updateSections = activeSections => {
-        this.setState({ activeSections });
+        this.setState({activeSections});
     };
 
     render() {
@@ -125,7 +125,7 @@ class DayContainer extends Component {
         this.renderDayCards();
         return (
             <ScrollView contentContainerStyle={styles.contentContainer}>
-                <DayCard title={this.dayTitle}/>
+                <Text style={styles.dayTitle}>{this.dayTitle}</Text>
                 <Accordion
                     sections={this.SECTIONS}
                     activeSections={this.state.activeSections}
@@ -139,6 +139,10 @@ class DayContainer extends Component {
 }
 
 const styles = StyleSheet.create({
+    dayTitle: {
+        padding: 25,
+        fontStyle : 'italic'
+    },
     contentContainer: {
         paddingBottom: 100,
         paddingTop: 50
