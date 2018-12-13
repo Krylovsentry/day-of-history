@@ -8,16 +8,23 @@ const styles = StyleSheet.create({
         borderBottomColor: '#d6e0e5',
         borderBottomWidth: 3,
         padding: 25
+    },
+    yearContent: {
+        textAlign: 'center',
+        fontSize: 13,
+        fontWeight: '400',
+        paddingBottom: 10,
+        paddingTop: 5
     }
 });
 
-const {cardContainer} = styles;
+const {cardContainer, yearContent} = styles;
 
 //use new js reconstruction for props, more readable way
 const DayCard = ({year, event}) => {
     return (
         <View style={cardContainer}>
-            <Text>{year}</Text>
+            <Text style={yearContent}>{year}</Text>
             <Text>{event}</Text>
         </View>
     );
