@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {View} from 'react-native';
 import {Provider} from 'react-redux';
-import {Header, DayContainer} from './src/components';
+import {DayContainer, Header} from './src/components';
 import Store from "./src/Store";
+import Footer from "./src/components/Footer";
 
 export default class App extends Component {
     render() {
@@ -11,6 +12,7 @@ export default class App extends Component {
                 <View>
                     <Header/>
                     <DayContainer/>
+                    <Footer/>
                 </View>
             </Provider>
         );
