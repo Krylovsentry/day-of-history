@@ -1,11 +1,14 @@
 {
   "expo": {
-    "name": "day-of-history",
+    "name": "History Day",
     "description": "This project is really great.",
-    "slug": "day-of-history",
+    "slug": "history-day",
     "privacy": "public",
     "sdkVersion": "30.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,6 +25,11 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "android": {
+      "package": "com.telaistudio.dayofhistory",
+      "permissions": []
+    },
+    "githubUrl": "https://github.com/Krylovsentry/day-of-history"
   }
 }
